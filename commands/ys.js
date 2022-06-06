@@ -34,8 +34,8 @@ module.exports = {
             con.query(`SELECT * FROM \`s_${enDay}\``, async function(err, res) {
                 if(err) throw err
                 for(var i = 0; i < res.length; i++) {
-                    subjects.push(res[i].name)
-                    cabinets.push(res[i].cabinet)
+                    subjects.push(res[i].name.replaceAll("<br>", " / ").replaceAll("<hr>", " / "))
+                    cabinets.push(res[i].cabinet.replaceAll("<br>", " / ").replaceAll("<hr>", " / "))
                 }
 
                 const yesterdayScheduleEmbed = new MessageEmbed()

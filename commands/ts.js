@@ -28,7 +28,7 @@ module.exports = {
         }
         else {
             uaDay = moment().locale("uk").format('dddd');
-            enDay = moment().locale("en").format('dddd');
+            enDay = moment().locale("en").format('dddd').toLowerCase();
         }
 
         con.connect((err) => {
@@ -40,26 +40,26 @@ module.exports = {
                     cabinets.push(res[i].cabinet)
                 }
 
-                if(kievTime == "8:30") {
+                if(kievTime >= "8:30" && kievTime <= "10:00") {
                     nextSubjTime = moment().locale("uk").to(moment("10:00", "HH:mm"))
                 }
-                else if(kievTime == "10:00") {
+                else if(kievTime >= "10:00" && kievTime <= "11:45") {
                     nextSubjTime = moment().locale("uk").to(moment("11:45", "HH:mm"))
                 }
-                else if(kievTime == "11:45") {
+                else if(kievTime >= "11:45" && kievTime <= "13:30") {
                     nextSubjTime = moment().locale("uk").to(moment("13:30", "HH:mm"))
                 }
-                else if(kievTime == "13:30") {
+                else if(kievTime >= "13:30" && kievTime <= "15:00") {
                     nextSubjTime = moment().locale("uk").to(moment("15:00", "HH:mm"))
                 }
-                else if(kievTime == "15:00") {
+                else if(kievTime >= "15:00" && kievTime <= "16:40") {
                     nextSubjTime = moment().locale("uk").to(moment("16:40", "HH:mm"))
                 }
-                else if(kievTime == "16:40") {
+                else if(kievTime >= "16:40" && kievTime <= "18:00") {
                     nextSubjTime = moment().locale("uk").to(moment("18:00", "HH:mm"))
                 }
                 else {
-                    nextSubjTime = moment().locale("uk").to(moment("8:30", "HH:mm"))
+                    nextSubjTime = moment(moment().utcOffset("+03:00")).locale("uk").to(moment("8:30", "HH:mm"))
                 }
 
                 const todayScheduleEmbed = new MessageEmbed()
