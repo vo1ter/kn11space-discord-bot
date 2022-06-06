@@ -5,7 +5,7 @@ moment.locale("uk")
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('server-info')
+		.setName('server')
 		.setDescription('Інформація про сервер.'),
 	async execute(interaction) {
 		var server = interaction.guild
