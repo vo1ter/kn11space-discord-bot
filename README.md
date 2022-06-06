@@ -25,7 +25,7 @@
     }
     ```
 5. Launching your bot with pm2:
-    ```
+    ```bash
     pm2 start bot.js
     ```
 6. Done!
