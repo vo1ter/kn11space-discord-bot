@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, MessageActionRow, MessageButton, Message, GuildMember, Permissions } = require("discord.js")
-const mysql = require('mysql');
+const { MessageEmbed, MessageActionRow, MessageButton, Permissions } = require("discord.js")
 const moment = require('moment')
 
 module.exports = {
@@ -15,6 +14,8 @@ module.exports = {
         }
         const user = interaction.options.getUser('name');
         var userKickPerm
+        var muteRole = interaction.guild.roles.cache.find((role) => role.name == "Muted")
+        var isUserMuted
         
         await interaction.guild.members.fetch(interaction.options.getUser('name').id).then((user) => userKickPerm = user.permissions.has(Permissions.FLAGS.KICK_MEMBERS))
         
@@ -80,7 +81,17 @@ module.exports = {
                     }, 5000)
                 }
                 else if(i.customId == "mute") {
-                    await i.update({ content: "В розробці :)", embeds: [], components: [] })
+                    if(muteRole == null) {
+                        interaction.guild.roles.create({ name: "Muted", color: "#545454", mentionable: false, permissions: [Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.CONNECT, Permissions.FLAGS.SPEAK, Permissions.FLAGS.STREAM] })
+                    }
+                    await interaction.guild.members.fetch(user).then((user) => { isUserMuted = user.roles.cache.find(r => r.name === "Muted") })
+                    if(isUserMuted == undefined || isUserMuted == null) {
+                        await interaction.guild.members.fetch(user).then((user) => { user.roles.add(muteRole) })
+                        await i.update({ embeds: [successfullEmbed], components: [] })
+                    }
+                    else {
+                        await i.update({ content: "Ви не можете замутити цього користувача, бо він вже в муті!", embeds: [], components: [] })
+                    }
                     setTimeout(() => {
                         collector.stop()
                     }, 5000)
@@ -88,13 +99,15 @@ module.exports = {
                 else {
                     collector.stop();
                 }
-            } else {
+            }
+            else {
                 i.reply({ content: `Ти не можеш взаємодіяти із цими кнопками!`, ephemeral: true });
             }
         });
 
         collector.on('end', collected => {
             interaction.deleteReply()
+            return
         });
 
         const modEmbed = new MessageEmbed()
