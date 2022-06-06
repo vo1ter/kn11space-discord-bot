@@ -6,46 +6,24 @@ moment.locale("uk")
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('server')
-		.setDescription('Інформація про сервер'),
+		.setDescription('Інформація про сервер.'),
 	async execute(interaction) {
 		var server = interaction.guild
         var channelsSum
-        var afkChannel
+        var afkChannel = server.afkChannel
+        var newsChannel = server.newsChannel
+        var rulesChannel = server.rulesChannel
+        var systemChannel = server.systemChannel
         var owner
 
-        await interaction.user.fetch(server.ownerId)
-            .then(user => owner = user);
+        if(server.afkChannel == null || server.afkChannel == undefined) afkChannel = "відсутній"
+        if(server.systemChannel == null || server.systemChannel == undefined) systemChannel = "відсутній"
+        if(server.rulesChannel == null || server.rulesChannel == undefined) rulesChannel = "відсутній"
+        if(server.newsChannel == null || server.newsChannel == undefined) newsChannel = "відсутній"
 
-        await server.channels.fetch()
-            .then(channels => channelsSum = channels.size);
+        await interaction.user.fetch(server.ownerId).then(user => owner = user);
 
-        if(server.afkChannel == null || server.afkChannel == undefined) {
-            afkChannel = "відсутній"
-        }
-        else {
-            afkChannel = server.afkChannel
-        }
-
-        if(server.systemChannel == null || server.systemChannel == undefined) {
-            systemChannel = "відсутній"
-        }
-        else {
-            systemChannel = server.systemChannel
-        }
-
-        if(server.rulesChannel == null || server.rulesChannel == undefined) {
-            rulesChannel = "відсутній"
-        }
-        else {
-            rulesChannel = server.rulesChannel
-        }
-
-        if(server.newsChannel == null || server.newsChannel == undefined) {
-            newsChannel = "відсутній"
-        }
-        else {
-            newsChannel = server.newsChannel
-        }
+        await server.channels.fetch().then(channels => channelsSum = channels.size);
 
         const serverInfoEmbed = new MessageEmbed()
             .setColor(`#ff1414`)

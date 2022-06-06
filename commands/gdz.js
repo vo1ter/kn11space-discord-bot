@@ -12,7 +12,7 @@ const con = mysql.createConnection({
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('gdz')
-		.setDescription('ГДЗ'),
+		.setDescription('ГДЗ.'),
 	async execute(interaction) {
         var names = []
         var links = []

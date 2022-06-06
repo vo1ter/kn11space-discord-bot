@@ -13,7 +13,7 @@ const con = mysql.createConnection({
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ys')
-		.setDescription('Розклад на наступний день'),
+		.setDescription('Розклад на наступний день.'),
 	async execute(interaction) {
         var uaDay
         var enDay

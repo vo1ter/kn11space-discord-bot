@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require("discord.js")
 const mysql = require('mysql');
-const moment = require('moment')
 
 const con = mysql.createConnection({
     host: "65.108.50.222",
@@ -13,7 +12,7 @@ const con = mysql.createConnection({
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('rings')
-		.setDescription('Список дзвінків'),
+		.setDescription('Список дзвінків.'),
 	async execute(interaction) {
         const ringsEmbed = new MessageEmbed()
             .setColor(`#ff1414`)
