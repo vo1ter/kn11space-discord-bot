@@ -24,7 +24,11 @@
         "clientId": "* your application id from Discord Developer Portal *"
     }
     ```
-5. Launching your bot with pm2:
+5. Deploying commands:
+    ```bash
+    node deploy-commands.js
+    ```
+6. Launching your bot with pm2:
     ```bash
     pm2 start bot.js
     ```
